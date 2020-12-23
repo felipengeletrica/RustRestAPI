@@ -6,20 +6,20 @@ use barrel::migration::Migration;
 use barrel::types;
 use barrel::backend::Pg;
 
-pub trait NewsMigration {
+pub trait EdgesMigration {
     fn new() -> Self;
     fn run(&self,pg_client:&mut Client) -> Result<u64, postgres::Error>;
 }
 
-pub struct CreateTableNewsMigration {}
-impl NewsMigration for CreateTableNewsMigration {
+pub struct CreateTableEdgesMigration {}
+impl EdgesMigration for CreateTableEdgesMigration {
     fn new() -> Self {
-        CreateTableNewsMigration {}
+        CreateTableEdgesMigration {}
     }
     
     fn run(&self,pg_client:&mut Client) -> Result<u64, postgres::Error> {
         let mut m = Migration::new();
-        m.create_table("news", |t| {
+        m.create_table("edges", |t| {
             t.add_column("id", types::uuid().primary(true));
             t.add_column("desc", types::text());
             t.add_column("url", types::text());
@@ -31,15 +31,15 @@ impl NewsMigration for CreateTableNewsMigration {
     }
 } 
 
-pub struct AddNewsRecordsMigration {}
-impl NewsMigration for AddNewsRecordsMigration {
+pub struct AddEdgeRecordsMigration {}
+impl EdgesMigration for AddEdgeRecordsMigration {
     fn new() -> Self {
-        AddNewsRecordsMigration {}
+        AddEdgeRecordsMigration {}
     }
     
     fn run(&self,pg_client:&mut Client) -> Result<u64, postgres::Error> {
-        pg_client.execute("INSERT INTO news VALUES 
+        pg_client.execute("INSERT INTO edges VALUES 
         (uuid_in(md5(random()::text || clock_timestamp()::text)::cstring),$1,$2)",
-                &[&"google",&"google.com"])
+                &[&"Edge South Brazil - RS POA CLARO",&"172.188.1.235"])
     }
 } 
