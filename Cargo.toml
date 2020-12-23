@@ -1,6 +1,7 @@
 [workspace]
 members = [
-    "news-service",
-    "news-dao",
-    "news-migrations"
+    "service",
+    "contract",
+    "dao",
+    "migrations"
 ]
