@@ -1,0 +1,6 @@
+[workspace]
+members = [
+    "news-service",
+    "news-dao",
+    "news-migrations"
+]
