@@ -29,6 +29,10 @@ Use adminer for database administer using web brownser:
 ***
 <h3>  Running webservice </h3>
 
+Start server:
+> cargo run --bin service
+
+Tests webservice:
 > curl -s http://localhost:8000/news | jq .
 
 > curl -s -X PUT "http://localhost:8000/news/facebook/faceboo.com"
