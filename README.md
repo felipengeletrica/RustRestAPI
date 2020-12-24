@@ -29,7 +29,7 @@ Use adminer for database administer using web brownser:
 ***
 <h3>  Running webservice </h3>
 
-Start server:
+Start server for development:
 > cargo run --bin service
 
 Tests webservice:
