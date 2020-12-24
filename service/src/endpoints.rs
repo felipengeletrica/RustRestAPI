@@ -3,39 +3,39 @@ use actix_web::{get,put,delete,Responder,HttpResponse,web};
 
 #[get("/")]
 async fn index() -> impl Responder {
-    format!("Endpoints: /news ")
+    format!("Endpoints: /edges ")
 }
 
-#[get("/news")]
-pub async fn list_news() -> HttpResponse  {
-    let news = service::list_news().await;
-    HttpResponse::Ok().json(news)
+#[get("/edges")]
+pub async fn list_edges() -> HttpResponse  {
+    let edge = service::list_edges().await;
+    HttpResponse::Ok().json(edge)
 }
 
-#[get("/news/{id}")]
-pub async fn get_news_by_id(info:web::Path<String>) -> HttpResponse  {
+#[get("/edge/{id}")]
+pub async fn get_edge_by_id(info:web::Path<String>) -> HttpResponse  {
     let id  = &info.as_str();
     let mut new_string = String::new();
     new_string.push_str(id);
 
-    let news = service::get_news_by_id(&new_string).await;
-    HttpResponse::Ok().json(news)
+    let edge = service::get_edge_by_id(&new_string).await;
+    HttpResponse::Ok().json(edge)
 }
 
-#[delete("/news/{id}")]
-pub async fn delete_news_by_id(info:web::Path<String>) -> HttpResponse {
+#[delete("/edge/{id}")]
+pub async fn delete_edge_by_id(info:web::Path<String>) -> HttpResponse {
     let id  = &info.as_str();
     let mut new_string = String::new();
     new_string.push_str(id);
 
-    let news = service::delete_news_by_id(&new_string).await;
+    let news = service::delete_edge_by_id(&new_string).await;
     HttpResponse::Ok().json(news)
 }
 
-#[put("/news/{url}/{desc}")]
-pub async fn insert_news(info:web::Path<(String, String)>) -> impl Responder {
+#[put("/edge/{url}/{desc}")]
+pub async fn insert_edge(info:web::Path<(String, String)>) -> impl Responder {
     let url  = &info.0;
     let desc = &info.1;
-    let new = service::insert_news(url,desc).await;
-    HttpResponse::Ok().json(new)
+    let edge = service::insert_edges(url,desc).await;
+    HttpResponse::Ok().json(edge)
 }

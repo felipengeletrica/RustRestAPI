@@ -33,11 +33,11 @@ Start server for development:
 > cargo run --bin service
 
 Tests webservice:
-> curl -s http://localhost:8000/news | jq .
+> curl -s http://localhost:8000/edges
 
-> curl -s -X PUT "http://localhost:8000/news/facebook/faceboo.com"
+> curl -s -X PUT "http://localhost:8000/edge/172.188.1.235/desc"
 
-> curl -s http://localhost:8000/news/0dae39e4-fca2-b076-4f88-617dd3352d11 | jq .
+> curl -s http://localhost:8000/news/e03d0c3c-70b0-9ad3-37e9-50815fbc7ddf | jq .
 
-> curl -s -X DELETE "http://localhost:8000/news/0dae39e4-fca2-b076-4f88-617dd3352d11"
+> curl -s -X DELETE "http://localhost:8000/edge/e03d0c3c-70b0-9ad3-37e9-50815fbc7ddf"
 
