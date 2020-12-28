@@ -27,7 +27,7 @@ Select database postgres, database mydb
 
 Login adminer for administrator:
 
-![Adminer login](../RustRestAPI/images/adminer-login.png)
+![Adminer login](images/adminer-login.png)
 
 Database created after running Migrations:
 ![Adminer Table](images/adminer-edgeTable.png)
