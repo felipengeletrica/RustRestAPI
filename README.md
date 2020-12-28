@@ -56,5 +56,5 @@ Tests webservice:
 
 <h3> Project references: </h3>
 
-    Tutorial:
+Tutorial:
 https://github.com/diegopacheco/rust-playground/tree/master/rust-microservice
