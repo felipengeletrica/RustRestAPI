@@ -5,6 +5,7 @@
 extern crate contract;
 extern crate tokio_postgres;
 extern crate uuid;
+extern crate uuid_v1;
 
 use contract::Edges;
 use tokio_postgres::{NoTls};
@@ -33,6 +34,7 @@ pub async fn get_edge_by_id(id:&String) -> Option<Edges> {
         desc: row.get(2),
         url:  row.get(1),
     };
+
   return Some(edges);
 }
 
@@ -43,13 +45,18 @@ pub async fn delete_edge_by_id(id:&String) -> Option<bool> {
 }
 
 pub async fn insert_edges(url:&String,desc:&String) -> Option<Edges> {
+
+  //let id = Uuid::new_v4();
   let client = connect().await.unwrap();
-  let _row = client.query("INSERT INTO edges VALUES(uuid_in(md5(random()::text || clock_timestamp()::text)::cstring),$1,$2)",&[&desc,&url]).await.unwrap();
+  let _row = &client.query("INSERT INTO edges VALUES(uuid_in(md5(random()::text || clock_timestamp()::text)::cstring),$1,$2) RETURNING id",&[&desc,&url]).await.unwrap();
+  
   let edges = Edges {
     id: String::from("0"),
     desc: String::from(desc),
     url: String::from(url),
   };
+
+  
   return Some(edges);
 }
 
@@ -57,6 +64,7 @@ pub async fn list_edges() -> Option<Vec<Edges>> {
   let client = connect().await.unwrap();
   let mut vec_edges = Vec::new();  
   let rows = &client.query("SELECT id::text,url,'desc' FROM edges", &[]).await.unwrap();
+
   for row in rows {
     let edges = Edges { 
         id:   row.get(0),

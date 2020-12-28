@@ -8,10 +8,11 @@ edition = "2018"
 
 [dependencies]
 contract = { path = "../contract" }
-postgres = "0.17.0"
+postgres = { version = "0.15.2", features = ["with-uuid"] }
 actix-web = "2.0.0"
 actix-rt = "1.0.0"
 futures = "0.3.1"
 tokio-postgres = "0.5.1"
 tokio = "0.2.9"
 uuid = {version="0.8.1",features=["v4"]}
+uuid_v1 = "0.1.2"
