@@ -14,5 +14,4 @@ actix-rt = "1.0.0"
 futures = "0.3.1"
 tokio-postgres = "0.5.1"
 tokio = "0.2.9"
-uuid = {version="0.8.1",features=["v4"]}
-uuid_v1 = "0.1.2"
+uuid = { version = "0.7", features = ["v4", "serde"] }

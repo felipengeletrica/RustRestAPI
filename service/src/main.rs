@@ -13,7 +13,7 @@ async fn main() -> std::io::Result<()> {
     std::env::set_var("RUST_LOG", "actix_server=info,actix_web=info");
     env_logger::init();
 
-    info!("Rust Actix Server running... http://localhost:8000/");
+    info!("Rust Actix Server running... http://localhost:8181/");
     HttpServer::new(|| App::new()
         .service(index)
         .service(list_edges)
@@ -21,7 +21,7 @@ async fn main() -> std::io::Result<()> {
         .service(get_edge_by_id)
         .service(delete_edge_by_id)
     )
-    .bind("127.0.0.1:8000")?
+    .bind("127.0.0.1:8181")?
     .run()
     .await
 }

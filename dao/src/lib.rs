@@ -5,8 +5,8 @@
 extern crate contract;
 extern crate tokio_postgres;
 extern crate uuid;
-extern crate uuid_v1;
 
+use uuid::Uuid;
 use contract::Edges;
 use tokio_postgres::{NoTls};
 use tokio;
@@ -29,8 +29,9 @@ pub async fn get_edge_by_id(id:&String) -> Option<Edges> {
   let client = connect().await.unwrap();
   let rows = &client.query("SELECT id::text,url,'desc' FROM edges where id::text=$1", &[&id]).await.unwrap();
   let row = rows.get(0).unwrap();
+
     let edges = Edges { 
-        id:   row.get(0),
+        id:   Uuid::parse_str(row.get(0)).unwrap(),
         desc: row.get(2),
         url:  row.get(1),
     };
@@ -46,17 +47,18 @@ pub async fn delete_edge_by_id(id:&String) -> Option<bool> {
 
 pub async fn insert_edges(url:&String,desc:&String) -> Option<Edges> {
 
-  //let id = Uuid::new_v4();
+  let id_uuid = uuid::Uuid::new_v4();
+  let _id = format!("{}", id_uuid);
   let client = connect().await.unwrap();
-  let _row = &client.query("INSERT INTO edges VALUES(uuid_in(md5(random()::text || clock_timestamp()::text)::cstring),$1,$2) RETURNING id",&[&desc,&url]).await.unwrap();
-  
+
+  let  _rows = &client.query("INSERT INTO edges VALUES(uuid_in(($1::text)::cstring),$2,$3) RETURNING id",&[&_id, &desc, &url]).await.unwrap();
+
   let edges = Edges {
-    id: String::from("0"),
+    id:   id_uuid,
     desc: String::from(desc),
     url: String::from(url),
   };
 
-  
   return Some(edges);
 }
 
@@ -67,7 +69,7 @@ pub async fn list_edges() -> Option<Vec<Edges>> {
 
   for row in rows {
     let edges = Edges { 
-        id:   row.get(0),
+        id:   Uuid::parse_str(row.get(0)).unwrap(),
         desc: row.get(1),
         url:  row.get(2),
     };
@@ -79,12 +81,12 @@ pub async fn list_edges() -> Option<Vec<Edges>> {
 pub async fn mocked_list_edges() -> Option<Vec<Edges>> {
   let mut vec_edges = Vec::new();  
   vec_edges.push(Edges {
-    id: String::from("c368c393-ccb5-f134-213e-2c50730e75ea"),
+    id: Uuid::parse_str("c368c393-ccb5-f134-213e-2c50730e75ea").unwrap(),
     desc: String::from("Edge South Brasil - POA 1"),
     url: String::from("172.1.1.1.1")
   });
   vec_edges.push(Edges {
-    id: String::from("c368c393-ccb5-f134-213e-2c50730e75eb"),
+    id: Uuid::parse_str("c368c393-ccb5-f134-213e-2c50730e75eb").unwrap(),
     desc: String::from("Edge South Brasil - POA 2"),
     url: String::from("172.1.1.1.1")
   });
